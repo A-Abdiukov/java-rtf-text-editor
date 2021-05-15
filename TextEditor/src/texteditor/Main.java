@@ -3,7 +3,11 @@ package texteditor;
 //The main class of the application
 public class Main {
     public static void main(String[] args) {
-        UserDetails.LoadUserDetails();
+        //setting up loggers
+        DatabaseConnection.SetupLogger();
+        LoginLogic.SetupLogger();
+        NewUserLogic.SetupLogger();
+        
         new Login().setVisible(true);
     }
 }

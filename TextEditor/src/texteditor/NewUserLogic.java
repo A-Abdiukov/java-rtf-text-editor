@@ -1,73 +1,75 @@
 package texteditor;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
-import static texteditor.UserDetails.loginCredentials;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
 
 public class NewUserLogic {
-    //This method attempts to add a new user to the text file
 
+    private static Logger logger;
+    private static FileHandler handler;
+
+    public static void SetupLogger() {
+        try {
+            logger = Logger.getLogger(NewUserLogic.class.getName());
+            handler = new FileHandler("NewUser.log", true);
+            logger.addHandler(handler);
+        } catch (IOException ex) {
+            System.out.println("An error has occured at SetupLogger(). " + ex.getMessage());
+        }
+    }
+    //This method attempts to add a new user to the text file
     public static String AttemptToAddNewUser(String username, String password,
             String password2, String firstName, String lastName,
             int comboboxChoice, LocalDate dob) {
 
         //INPUT VALIDATION
         if (username.length() < 1) {
+            logger.info("Failed to create new user."
+                    + "\nReason =  username provided has a length of less than 1");
             return "Please enter something into \"Username\" field";
         }
         if (password.length() < 1) {
+            logger.info("Failed to create new user."
+                    + "\nReason =  password provided has a length of less than 1");
             return "Please enter something into \"Password\" field";
         }
         if (!password.equals(password2)) {
+            logger.info("Failed to create new user."
+                    + "\nReason =  \"password\" and \"re-enter password\" fields do not match");
             return "The passwords you entered do not match";
         }
         if (firstName.length() < 1) {
+            logger.info("Failed to create new user."
+                    + "\nReason =  first name provided has a length of less than 1");
             return "Please enter something into \"First Name\" field";
         }
         if (lastName.length() < 1) {
+            logger.info("Failed to create new user."
+                    + "\nReason =  last name provided has a length of less than 1");
             return "Please enter something into \"Last Name\" field";
         }
         if (comboboxChoice == -1) {
+            logger.info("Failed to create new user."
+                    + "\nReason =  the user has not selected anything in combobox (user type combobox)");
             return "Please select something in the \'User Type\' field";
         }
         if (dob == null) {
+            logger.info("Failed to create new user."
+                    + "\nReason =  the user has not selected anything in date time picker (date of birth picker)");
             return "Please select a date";
-        }
-        //The program checks for commas, because when reading the text file, the program treats commas as separators of data
-        //By using commas, the program knows when this field ends and a new field starts.
-        if (username.contains(",") || password.contains(",")
-                || firstName.contains(",") || lastName.contains(",")
-                || dob.toString().contains(",")) {
-            return "Error. One of the fields contains a comma. Please remove all commas.";
         }
 
         //CREATING A NEW USER
-        User newUserToAdd = new User(username, password, comboboxChoice,
+        User newUser = new User(username, password, comboboxChoice,
                 firstName, lastName, dob);
 
-        //Checking whether the user exists
-        for (User user : UserDetails.loginCredentials) {
-            if (user.Username.equals(newUserToAdd.Username)) //if user with matching username already exists - returns error
-            {
-                return "Error. Person with that username already exists";
-            
-            }
+        if (DatabaseConnection.AddNewUser(newUser)) {
+            return "success";
+        } else {
+            return "Failed to update the database.";
         }
-        //END OF VALIDATION
-        //START OF WRITING TO THE TEXT FILE
-        try {
-            FileWriter myWriter = new FileWriter(UserDetails.USER_FILE_NAME, true);
-            myWriter.write(newUserToAdd.Username + "," + newUserToAdd.Password
-                    + "," + newUserToAdd.UserType + "," + newUserToAdd.FirstName
-                    + "," + newUserToAdd.LastName + "," + newUserToAdd.DateOfBirth + "\n");
-            loginCredentials.add(newUserToAdd);
-            myWriter.close();
-        } catch (IOException e) {
-            return "Failed to write onto a file";
-        }
-        //END OF WRITING TO THE TEXT FILE
-        return "success";
 
     }
 }

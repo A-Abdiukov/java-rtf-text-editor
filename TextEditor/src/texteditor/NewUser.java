@@ -194,7 +194,7 @@ public class NewUser extends javax.swing.JFrame {
         String password2 = jPasswordField_PasswordReEnter.getText();
         String firstName = jTextField_FirstName.getText();
         String lastName = jTextField_LastName.getText();
-        int comboboxChoice = combobox_userType.getSelectedIndex();
+        int comboboxChoice = combobox_userType.getSelectedIndex() + 1;
         LocalDate dob = datePicker1.getDate();
 
         String result = NewUserLogic.AttemptToAddNewUser(username, password,
