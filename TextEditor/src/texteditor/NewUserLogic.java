@@ -19,6 +19,7 @@ public class NewUserLogic {
             System.out.println("An error has occured at SetupLogger(). " + ex.getMessage());
         }
     }
+
     //This method attempts to add a new user to the text file
     public static String AttemptToAddNewUser(String username, String password,
             String password2, String firstName, String lastName,
@@ -66,6 +67,7 @@ public class NewUserLogic {
                 firstName, lastName, dob);
 
         if (DatabaseConnection.AddNewUser(newUser)) {
+            logger.info("New user has been created. Username = " + username);
             return "success";
         } else {
             return "Failed to update the database.";
