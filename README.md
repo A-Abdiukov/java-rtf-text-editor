@@ -17,6 +17,6 @@ Other features include:
 
 ## Credits
 
-- Icons in text editor - > https://commons.wikimedia.org/wiki/Crystal/64/Mimetypes by Everaldo Coelho. LGPL licence.
-- DatePicker -> https://github.com/LGoodDatePicker/LGoodDatePicker by BlakeTNC and 16 other contributors. MIT licence.
-- MySQL connector -> https://github.com/mysql/mysql-connector-j . MIT licence.
+- Icons for text editor buttons - > https://commons.wikimedia.org/wiki/Crystal/64/Mimetypes by Everaldo Coelho. GNU Lesser General Public License Version 2.1.
+- DatePicker -> https://github.com/LGoodDatePicker/LGoodDatePicker by LGoodDatePicker. MIT License.
+- MySQL connector -> https://github.com/mysql/mysql-connector-j by Oracle and/or its affiliates. GNU Lesser General Public License Version 2.1.
